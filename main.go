@@ -50,7 +50,7 @@ type Options struct {
 	Version   bool   `short:"V" long:"version" description:"display version"`
 	Args      struct {
 		Command []string
-	} //`positional-args:"yes" required:"yes"`
+	}
 }
 
 func main() {
@@ -62,19 +62,17 @@ func main() {
 		os.Exit(1)
 	}
 
-	hasClass := parser.FindOptionByLongName("class").IsSet()
-	hasClassData := parser.FindOptionByLongName("classdata").IsSet()
-	hasPID := parser.FindOptionByLongName("pid").IsSet()
-	hasPGID := parser.FindOptionByLongName("pgid").IsSet()
-	hasUID := parser.FindOptionByLongName("uid").IsSet()
-
 	var (
-		data                         = 4
-		set                          = 0
-		ioclass  ionice.IOPRIO_CLASS = ionice.IOPRIO_CLASS_BE
-		which                        = 0
-		who                          = 0
-		tolerant bool
+		hasClass     = parser.FindOptionByLongName("class").IsSet()
+		hasClassData = parser.FindOptionByLongName("classdata").IsSet()
+		hasPID       = parser.FindOptionByLongName("pid").IsSet()
+		hasPGID      = parser.FindOptionByLongName("pgid").IsSet()
+		hasUID       = parser.FindOptionByLongName("uid").IsSet()
+
+		data            = 4
+		set, which, who int
+		ioclass         ionice.IOPRIO_CLASS = ionice.IOPRIO_CLASS_BE
+		tolerant        bool
 	)
 
 	switch {
@@ -154,7 +152,6 @@ func main() {
 				ionice.Print(which, who)
 			}
 		}
-
 	} else if set != 0 && who != 0 {
 		// chill -c CLASS -p|-P|-u ID [ID ...]
 		ionice.SetIDPri(which, ioclass, data, who, tolerant)
@@ -180,8 +177,7 @@ func main() {
 		}
 		os.Exit(1)
 	} else {
-		fmt.Fprintln(os.Stderr, "bad usage")
-		fmt.Fprintln(os.Stderr, "Try 'chill --help' for more information.")
+		fmt.Fprintln(os.Stderr, "bad usage\nTry 'chill --help' for more information.")
 		os.Exit(1)
 	}
 }
