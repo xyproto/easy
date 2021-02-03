@@ -1,0 +1,27 @@
+.\"             -*-Nroff-*-
+.\"
+.TH "in" 1 "3 Feb 2021" "" ""
+.SH NAME
+chill \- execute a command in an IO friendly way
+.sp
+THIS MAN PAGE IS A WORK IN PROGRESS
+.SH SYNOPSIS
+.B chill
+directory command
+.sp
+.SH DESCRIPTION
+Run the given command with an IO-friendly priority, or with a custom priority.
+.sp
+chill can also modify the IO niceness of user IDs, PIDs or PID groups.
+.sp
+See --help for more info.
+.sp
+.SH VERSION
+0.9.0
+.SH BUGS
+No known bugs so far. Issues can be reported at: https://github.com/xyproto/ionice/issues
+.SH AUTHOR
+.B in
+was written by Alexander F. Rødseth <xyproto@archlinux.org>
+.sp
+and is a fork/port of ionice from util-linux (also GPL2 licensed).
