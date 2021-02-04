@@ -71,14 +71,25 @@ func main() {
 
 		data            = 4
 		set, which, who int
-		ioclass         ionice.IOPRIO_CLASS = ionice.IOPRIO_CLASS_BE
+		ioclass         = ionice.IOPRIO_CLASS_BE
 		tolerant        bool
 	)
 
-	switch {
-	case hasClassData:
+	if opts.Help {
+		fmt.Println(usageString)
+		os.Exit(0)
+	}
+	if opts.Version {
+		fmt.Println(versionString)
+		os.Exit(0)
+	}
+	if opts.Ignore {
+		tolerant = true
+	}
+	if hasClassData {
 		set |= 1
-	case hasClass:
+	}
+	if hasClass {
 		ioclass, err = ionice.Parse(opts.Class)
 		if err != nil {
 			fmt.Fprintln(os.Stderr, err)
@@ -88,36 +99,32 @@ func main() {
 			fmt.Fprintf(os.Stderr, "uknown scheduling class: '%s'\n", opts.Class)
 		}
 		set |= 2
-	case hasPID:
+	}
+	if hasPID {
 		if who != 0 {
 			fmt.Fprintln(os.Stderr, "can handle only one of pid, pgid or uid at once")
 			os.Exit(1)
 		}
 		which = opts.PID
 		who = ionice.IOPRIO_WHO_PROCESS
-	case hasPGID:
+	}
+	if hasPGID {
 		if who != 0 {
 			fmt.Fprintln(os.Stderr, "can handle only one of pid, pgid or uid at once")
 			os.Exit(1)
 		}
 		which = opts.PGID
 		who = ionice.IOPRIO_WHO_PGRP
-	case hasUID:
+	}
+	if hasUID {
 		if who != 0 {
 			fmt.Fprintln(os.Stderr, "can handle only one of pid, pgid or uid at once")
 			os.Exit(1)
 		}
 		which = opts.UID
 		who = ionice.IOPRIO_WHO_USER
-	case opts.Ignore:
-		tolerant = true
-	case opts.Version:
-		fmt.Println(versionString)
-		os.Exit(0)
-	case opts.Help:
-		fmt.Println(usageString)
-		os.Exit(0)
 	}
+
 	switch ioclass {
 	case ionice.IOPRIO_CLASS_NONE:
 		if (set&1) != 0 && !tolerant {
@@ -129,13 +136,13 @@ func main() {
 		break
 	case ionice.IOPRIO_CLASS_IDLE:
 		if (set&1) != 0 && !tolerant {
-			// warning
+			// just a warning, no exit
 			fmt.Fprintln(os.Stderr, "ignoring given class data for idle class")
 		}
 		data = 7
 	default:
 		if !tolerant {
-			// warning
+			// just a warning, no exit
 			fmt.Fprintf(os.Stderr, "unknown prio class %d\n", ioclass)
 		}
 	}
