@@ -1,0 +1,23 @@
+#!/bin/sh
+
+sudo pkill -f bgio.sh
+
+./bgio.sh &
+PID="$!"
+echo "PID: $PID"
+ionice -p $PID
+
+echo 'Sleeping for 5 seconds before reprioritizing background I/O'
+sleep 5
+sudo ionice -c best-effort -n 4 -p $PID
+ionice -p $PID
+
+echo 'Sleeping for 5 seconds before reprioritizing background I/O'
+sleep 5
+sudo ionice -c 3 -p $PID
+ionice -p $PID
+
+echo 'Running for 5 seconds before killing background I/O'
+sleep 5
+kill "$PID"
+rm -rf _testdir

@@ -1,0 +1,23 @@
+#!/bin/sh
+
+sudo pkill -f bgio.sh
+
+./bgio.sh &
+PID="$!"
+echo "PID: $PID"
+ion -p $PID
+
+echo 'Sleeping for 5 seconds before reprioritizing background I/O'
+sleep 5
+sudo ion -c best-effort -n 3 -p $PID
+ion -p $PID
+
+echo 'Sleeping for 5 seconds before reprioritizing background I/O'
+sleep 5
+sudo ion -c 3 -p $PID
+ion -p $PID
+
+echo 'Running for 5 seconds before killing background I/O'
+sleep 5
+kill "$PID"
+rm -rf _testdir
