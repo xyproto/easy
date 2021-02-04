@@ -13,7 +13,7 @@ import (
 	"github.com/xyproto/ionice"
 )
 
-const versionString = "chill 0.9.0"
+const versionString = "chill 1.0.0"
 
 const usageString = `Usage:
  chill [options] -p <pid>...
