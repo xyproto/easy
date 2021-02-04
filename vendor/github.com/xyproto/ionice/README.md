@@ -1,17 +1,17 @@
 # ionice
 
-This is a port and rewrite of ionice (from util-linux, GPL2 licensed) to a Go module and a `gionice` utility.
+This is a port and rewrite of `ionice` from `util-linux` to a Go module.
 
-The development version of `gionice` can be installed with:
+There's a command line utility named `chill` available for installation with:
 
-    go get -u github.com/xyproto/ionice/cmd/gionice
+    go get -u github.com/xyproto/chill
 
-The `ionice` Go package can be used by Go programs that wishes to run without hogging the IO capabilities of the current system.
+This will download and install the development version of [Chill](https://github.com/xyproto/chill), which uses this Go module.
 
-Even though this code is based on solid and well tested C code, the current implementation needs more testing.
+The `ionice`  package can be used by any Go program that wishes to run without hogging the IO capabilities of the current system.
 
 ## General info
 
-* Version: 0.9.0
+* Version: 1.0.0
 * License: GPL2
 * Author: Alexander F. Rødseth &lt;xyproto@archlinux.org&gt;
