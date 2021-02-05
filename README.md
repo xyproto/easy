@@ -8,6 +8,8 @@ This many be useful for running ie. Zoom or Chromium on desktop Linux.
 
 It can also be used to give applications increased I/O priority.
 
+Also, being able to launch programs like `nice chill chromium` is just more fun.
+
 ## Related projects
 
 * [ion](https://github.com/xyproto/ion) is a fork of `ionice`, in 326 lines of C.
