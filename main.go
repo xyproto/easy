@@ -161,16 +161,26 @@ func main() {
 		}
 	} else if set != 0 && who != 0 {
 		// chill -c CLASS -p|-P|-u ID [ID ...]
-		ionice.SetIDPri(which, ioclass, data, who, tolerant)
+		if err := ionice.SetIDPri(which, ioclass, data, who); err != nil && !tolerant {
+			fmt.Fprintln(os.Stderr, "ioprio_set failed", err)
+			os.Exit(1)
+		}
 		for _, id := range args {
 			if n, err := strconv.Atoi(id); err == nil { // success, arg is a number
 				which = n
-				ionice.SetIDPri(which, ioclass, data, who, tolerant)
+
+				if err := ionice.SetIDPri(which, ioclass, data, who); err != nil && !tolerant {
+					fmt.Fprintln(os.Stderr, "ioprio_set failed", err)
+					os.Exit(1)
+				}
 			}
 		}
 	} else if len(args) > 0 {
 		// chill [-c CLASS] COMMAND
-		ionice.SetIDPri(0, ioclass, data, ionice.IOPRIO_WHO_PROCESS, tolerant)
+		if err := ionice.SetIDPri(0, ioclass, data, ionice.IOPRIO_WHO_PROCESS); err != nil && !tolerant {
+			fmt.Fprintln(os.Stderr, "ioprio_set failed", err)
+			os.Exit(1)
+		}
 		var argv0 string = args[0] // got to find the path first?
 		argv0, err := exec.LookPath(args[0])
 		if err != nil {

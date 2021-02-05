@@ -1,6 +1,6 @@
 # github.com/jessevdk/go-flags v1.4.0
 ## explicit
 github.com/jessevdk/go-flags
-# github.com/xyproto/ionice v1.0.0
+# github.com/xyproto/ionice v1.0.1-0.20210205134523-0e21d8e00bf8
 ## explicit
 github.com/xyproto/ionice

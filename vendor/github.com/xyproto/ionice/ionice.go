@@ -104,9 +104,19 @@ func Print(pid, who int) {
 	}
 }
 
-func SetIDPri(which int, ioclass PriClass, data, who int, tolerant bool) {
+func SetIDPri(which int, ioclass PriClass, data, who int) error {
 	_, err := SetPri(who, which, priValue(uint(ioclass), uint(data)))
-	if err != nil && !tolerant {
-		log.Fatalln("ioprio_set failed", err)
-	}
+	return err
+}
+
+// If permitted, set the given process ID to "idle", level 7.
+// Use 0 for the current process.
+func SetIdle(pid int) error {
+	return SetIDPri(pid, IOPRIO_CLASS_IDLE, 7, IOPRIO_WHO_PROCESS)
+}
+
+// If permitted, set the given process ID to "realtime", level 7.
+// Use 0 for the current process.
+func SetRealTime(pid int) error {
+	return SetIDPri(pid, IOPRIO_CLASS_RT, 7, IOPRIO_WHO_PROCESS)
 }
