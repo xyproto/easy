@@ -10,7 +10,7 @@ import (
 	"syscall"
 
 	"github.com/jessevdk/go-flags"
-	"github.com/xyproto/ionice"
+	"github.com/xyproto/gionice"
 )
 
 const versionString = "chill 1.0.0"
@@ -71,7 +71,7 @@ func main() {
 
 		data            = 4
 		set, which, who int
-		ioclass         = ionice.IOPRIO_CLASS_BE
+		ioclass         = gionice.IOPRIO_CLASS_BE
 		tolerant        bool
 	)
 
@@ -90,7 +90,7 @@ func main() {
 		set |= 1
 	}
 	if hasClass {
-		ioclass, err = ionice.Parse(opts.Class)
+		ioclass, err = gionice.Parse(opts.Class)
 		if err != nil {
 			fmt.Fprintln(os.Stderr, err)
 			os.Exit(1)
@@ -106,7 +106,7 @@ func main() {
 			os.Exit(1)
 		}
 		which = opts.PID
-		who = ionice.IOPRIO_WHO_PROCESS
+		who = gionice.IOPRIO_WHO_PROCESS
 	}
 	if hasPGID {
 		if who != 0 {
@@ -114,7 +114,7 @@ func main() {
 			os.Exit(1)
 		}
 		which = opts.PGID
-		who = ionice.IOPRIO_WHO_PGRP
+		who = gionice.IOPRIO_WHO_PGRP
 	}
 	if hasUID {
 		if who != 0 {
@@ -122,19 +122,19 @@ func main() {
 			os.Exit(1)
 		}
 		which = opts.UID
-		who = ionice.IOPRIO_WHO_USER
+		who = gionice.IOPRIO_WHO_USER
 	}
 
 	switch ioclass {
-	case ionice.IOPRIO_CLASS_NONE:
+	case gionice.IOPRIO_CLASS_NONE:
 		if (set&1) != 0 && !tolerant {
 			// warning
 			fmt.Fprintln(os.Stderr, "ignoring given cass data for none class")
 		}
 		data = 0
-	case ionice.IOPRIO_CLASS_RT, ionice.IOPRIO_CLASS_BE:
+	case gionice.IOPRIO_CLASS_RT, gionice.IOPRIO_CLASS_BE:
 		break
-	case ionice.IOPRIO_CLASS_IDLE:
+	case gionice.IOPRIO_CLASS_IDLE:
 		if (set&1) != 0 && !tolerant {
 			// just a warning, no exit
 			fmt.Fprintln(os.Stderr, "ignoring given class data for idle class")
@@ -149,19 +149,19 @@ func main() {
 
 	if set == 0 && which == 0 && len(args) == 0 {
 		// chill without options, print the current ioprio
-		ionice.Print(0, ionice.IOPRIO_WHO_PROCESS)
+		gionice.Print(0, gionice.IOPRIO_WHO_PROCESS)
 	} else if set == 0 && who != 0 {
 		// chill -p|-P|-u ID [ID ...]
-		ionice.Print(which, who)
+		gionice.Print(which, who)
 		for _, id := range args {
 			if n, err := strconv.Atoi(id); err == nil { // success, arg is a number
 				which = n
-				ionice.Print(which, who)
+				gionice.Print(which, who)
 			}
 		}
 	} else if set != 0 && who != 0 {
 		// chill -c CLASS -p|-P|-u ID [ID ...]
-		if err := ionice.SetIDPri(which, ioclass, data, who); err != nil && !tolerant {
+		if err := gionice.SetIDPri(which, ioclass, data, who); err != nil && !tolerant {
 			fmt.Fprintln(os.Stderr, "ioprio_set failed", err)
 			os.Exit(1)
 		}
@@ -169,7 +169,7 @@ func main() {
 			if n, err := strconv.Atoi(id); err == nil { // success, arg is a number
 				which = n
 
-				if err := ionice.SetIDPri(which, ioclass, data, who); err != nil && !tolerant {
+				if err := gionice.SetIDPri(which, ioclass, data, who); err != nil && !tolerant {
 					fmt.Fprintln(os.Stderr, "ioprio_set failed", err)
 					os.Exit(1)
 				}
@@ -177,7 +177,7 @@ func main() {
 		}
 	} else if len(args) > 0 {
 		// chill [-c CLASS] COMMAND
-		if err := ionice.SetIDPri(0, ioclass, data, ionice.IOPRIO_WHO_PROCESS); err != nil && !tolerant {
+		if err := gionice.SetIDPri(0, ioclass, data, gionice.IOPRIO_WHO_PROCESS); err != nil && !tolerant {
 			fmt.Fprintln(os.Stderr, "ioprio_set failed", err)
 			os.Exit(1)
 		}
