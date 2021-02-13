@@ -13,7 +13,7 @@ Also, being able to launch programs like `nice chill chromium` is just more fun.
 ## Related projects
 
 * [ion](https://github.com/xyproto/ion) is a fork of `ionice`, in 326 lines of C.
-* [ionice](https://github.com/xyproto/ionice) is a Go module where the core functionality of the `ionice` utility has been ported to Go.
+* [gionice](https://github.com/xyproto/gionice) is a Go module where the core functionality of the `ionice` utility has been ported to Go.
 
 `chill` uses the [`ionice`](https://github.com/xyproto/ionice) Go module.
 
@@ -30,7 +30,7 @@ Just Go and Linux.
 ## Build
 
     go build -mod=vendor
-    
+
 ## Install
 
     install -Dm755 chill /usr/bin/chill
