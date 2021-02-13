@@ -15,7 +15,7 @@ Also, being able to launch programs like `nice chill chromium` is just more fun.
 * [ion](https://github.com/xyproto/ion) is a fork of `ionice`, in 326 lines of C.
 * [gionice](https://github.com/xyproto/gionice) is a Go module where the core functionality of the `ionice` utility has been ported to Go.
 
-`chill` uses the [`ionice`](https://github.com/xyproto/ionice) Go module.
+`chill` uses the [`gionice`](https://github.com/xyproto/gionice) Go module.
 
 ## Why
 
