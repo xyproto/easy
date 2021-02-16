@@ -1,2 +1,4 @@
 cmd/idle/idle
+cmd/supernice/supernice
+cmd/hog/hog
 *.dat

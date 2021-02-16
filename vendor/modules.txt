@@ -1,6 +1,6 @@
 # github.com/jessevdk/go-flags v1.4.0
 ## explicit
 github.com/jessevdk/go-flags
-# github.com/xyproto/gionice v1.2.0
+# github.com/xyproto/gionice v1.3.0
 ## explicit
 github.com/xyproto/gionice

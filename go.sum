@@ -1,4 +1,4 @@
 github.com/jessevdk/go-flags v1.4.0 h1:4IU2WS7AumrZ/40jfhf4QVDMsQwqA7VEHozFRrGARJA=
 github.com/jessevdk/go-flags v1.4.0/go.mod h1:4FA24M0QyGHXBuZZK/XkWh8h0e1EYbRYJSGM75WSRxI=
-github.com/xyproto/gionice v1.2.0 h1:vXpUWcm7QPxrrsSInAlZC0F7MSq3gdPKllVxUteD0u8=
-github.com/xyproto/gionice v1.2.0/go.mod h1:bXnNfrv26yrsvmIXmTPztA+/MJ6wDjKv4l5can8P0cw=
+github.com/xyproto/gionice v1.3.0 h1:v0X22Iduy+lplGT735pKRc6c550vvXYXvgXy0ZkA+qM=
+github.com/xyproto/gionice v1.3.0/go.mod h1:bXnNfrv26yrsvmIXmTPztA+/MJ6wDjKv4l5can8P0cw=

@@ -111,12 +111,36 @@ func SetIDPri(which int, ioclass PriClass, data, who int) error {
 
 // If permitted, set the given process ID to "idle", level 7.
 // Use 0 for the current process.
-func SetIdle(pid int) error {
+func SetIdlePID(pid int) error {
 	return SetIDPri(pid, IOPRIO_CLASS_IDLE, 7, IOPRIO_WHO_PROCESS)
+}
+
+// If permitted, set the given process group ID to "idle", level 7.
+// Use 0 for the current process group.
+func SetIdle(pgid int) error {
+	return SetIDPri(pgid, IOPRIO_CLASS_IDLE, 7, IOPRIO_WHO_PGRP)
 }
 
 // If permitted, set the given process ID to "realtime", level 7.
 // Use 0 for the current process.
-func SetRealTime(pid int) error {
+func SetRealTimePID(pid int) error {
 	return SetIDPri(pid, IOPRIO_CLASS_RT, 7, IOPRIO_WHO_PROCESS)
+}
+
+// If permitted, set the given process group ID to "realtime",
+// level 7. Use 0 for the current process group.
+func SetRealTime(pgid int) error {
+	return SetIDPri(pgid, IOPRIO_CLASS_RT, 7, IOPRIO_WHO_PGRP)
+}
+
+// Idle will set the current process group IO niceness to
+// "idle", level 7, if permitted.
+func Idle() error {
+	return SetIDPri(0, IOPRIO_CLASS_IDLE, 7, IOPRIO_WHO_PGRP)
+}
+
+// Reltime will set the current process group IO niceness to
+// "realtime", level 7, if permitted.
+func Realtime() error {
+	return SetIDPri(0, IOPRIO_CLASS_RT, 7, IOPRIO_WHO_PGRP)
 }
