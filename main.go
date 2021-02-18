@@ -31,6 +31,7 @@ Options:
  -p, --pid <pid>...     act on these already running processes
  -P, --pgid <pgrp>...   act on already running processes in these groups
  -t, --ignore           ignore failures
+ -a, --nice             also set the niceness to 10
  -u, --uid <uid>...     act on already running processes owned by these users
 
  -h, --help             display this help
@@ -45,6 +46,7 @@ type Options struct {
 	PID       int    `short:"p" long:"pid" description:"act on these already running processes" value-name:"PID"`
 	PGID      int    `short:"P" long:"pgid" description:"act on already running processes in these groups" value-name:"PGID"`
 	Ignore    bool   `short:"t" long:"ignore" description:"ignore failures"`
+	Nice      bool   `short:"a" long:"nice" description:"also set niceness to 10"`
 	UID       int    `short:"u" long:"uid" description:"act on already running processes owned by these users" value-name:"UID"`
 	Help      bool   `short:"h" long:"help" description:"display this help"`
 	Version   bool   `short:"V" long:"version" description:"display version"`
@@ -123,6 +125,10 @@ func main() {
 		}
 		which = opts.UID
 		who = gionice.IOPRIO_WHO_USER
+	}
+
+	if opts.Nice {
+		gionice.SetNicePri(which, who, 10)
 	}
 
 	switch ioclass {

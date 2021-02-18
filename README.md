@@ -10,6 +10,10 @@ It can also be used to give applications increased I/O priority.
 
 Also, being able to launch programs like `nice chill chromium` is just more fun.
 
+## Differences from `ionice`
+
+* `-a` can be used to also set the process niceness to 10 (same as `nice COMMAND`).
+
 ## Related projects
 
 * [ion](https://github.com/xyproto/ion) is a fork of `ionice`, in 326 lines of C.
