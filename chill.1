@@ -1,6 +1,6 @@
 .\"             -*-Nroff-*-
 .\"
-.TH "chill" 1 "4 Feb 2021" "chill" "User Commands"
+.TH "chill" 1 "2 Mar 2021" "chill" "User Commands"
 .SH NAME
 chill \- set or get process I/O scheduling class and priority
 .SH SYNOPSIS
@@ -106,8 +106,14 @@ Ignore failure to set the requested priority.  If \fIcommand\fR was specified,
 run it even in case it was not possible to set the desired scheduling priority,
 which can happen due to insufficient privileges or an old kernel version.
 .TP
-.BR \-a , " \-\-nice"
-Also set the niceness value to 10.
+.BR \-N , " \-\-nice"
+Set the process niceness value to 10.
+.TP
+.BR \-a , " \-\-adjustment " \fIPx\fR...
+Adjust the process nicencess value up or down the given offset.
+.TP
+.BR \-s , " \-\-setnice " \fIPx\fR...
+Set the process niceness to the given value.
 .TP
 .BR \-h , " \-\-help"
 Display help text and exit.
@@ -135,7 +141,7 @@ Runs 'bash' as a best-effort program with highest priority.
 .TP 7
 Prints the class and priority of the processes with PID 89 and 91.
 .SH VERSION
-1.1.0
+1.2.0
 .SH AUTHORS
 .nf
 Jens Axboe <jens@axboe.dk>

@@ -13,7 +13,7 @@ import (
 	"github.com/xyproto/gionice"
 )
 
-const versionString = "chill 1.1.0"
+const versionString = "chill 1.2.0"
 
 const usageString = `Usage:
  chill [options] -p <pid>...
@@ -21,18 +21,20 @@ const usageString = `Usage:
  chill [options] -u <uid>...
  chill [options] <command>
 
-Show or change the I/O-scheduling class and priority of a process.
+Set or get the I/O-scheduling class and priority of a process.
 
 Options:
  -c, --class <class>    name or number of scheduling class,
-                          0: none, 1: realtime, 2: best-effort, 3: idle
+                        0: none, 1: realtime, 2: best-effort, 3: idle
  -n, --classdata <num>  priority (0..7) in the specified scheduling class,
-                          only for the realtime and best-effort classes
+                        only for the realtime and best-effort classes
  -p, --pid <pid>...     act on these already running processes
  -P, --pgid <pgrp>...   act on already running processes in these groups
  -t, --ignore           ignore failures
- -a, --nice             also set the niceness to 10
+ -N, --nice             set the niceness to 10
+ -a, --adjustment <x>   adjust the nice priority with the given number
  -u, --uid <uid>...     act on already running processes owned by these users
+ -s, --setnice <x>      set the process niceness
 
  -h, --help             display this help
  -V, --version          display version
@@ -41,16 +43,18 @@ For more details see chill(1).`
 
 // Options is a struct containing information about all flags used by chill
 type Options struct {
-	Class     string `short:"c" long:"class" description:"name or number of scheduling class, 0: none, 1: realtime, 2: best-effort, 3: idle" choice:"0" choice:"1" choice:"2" choice:"3" choice:"none" choice:"realtime" choice:"best-effort" choice:"idle"`
-	ClassData int    `short:"n" long:"classdata" description:"priority (0..7) in the specified scheduling class, only for the realtime and best-effort classes" choice:"0" choice:"1" choice:"2" choice:"3" choice:"4" choice:"5" choice:"6" choice:"7" choice:"8" choice:"9"`
-	PID       int    `short:"p" long:"pid" description:"act on these already running processes" value-name:"PID"`
-	PGID      int    `short:"P" long:"pgid" description:"act on already running processes in these groups" value-name:"PGID"`
-	Ignore    bool   `short:"t" long:"ignore" description:"ignore failures"`
-	Nice      bool   `short:"a" long:"nice" description:"also set niceness to 10"`
-	UID       int    `short:"u" long:"uid" description:"act on already running processes owned by these users" value-name:"UID"`
-	Help      bool   `short:"h" long:"help" description:"display this help"`
-	Version   bool   `short:"V" long:"version" description:"display version"`
-	Args      struct {
+	Class      string `short:"c" long:"class" description:"name or number of scheduling class, 0: none, 1: realtime, 2: best-effort, 3: idle" choice:"0" choice:"1" choice:"2" choice:"3" choice:"none" choice:"realtime" choice:"best-effort" choice:"idle"`
+	ClassData  int    `short:"n" long:"classdata" description:"priority (0..7) in the specified scheduling class, only for the realtime and best-effort classes" choice:"0" choice:"1" choice:"2" choice:"3" choice:"4" choice:"5" choice:"6" choice:"7" choice:"8" choice:"9"`
+	PID        int    `short:"p" long:"pid" description:"act on these already running processes" value-name:"PID"`
+	PGID       int    `short:"P" long:"pgid" description:"act on already running processes in these groups" value-name:"PGID"`
+	Ignore     bool   `short:"t" long:"ignore" description:"ignore failures"`
+	Nice       bool   `short:"N" long:"nice" description:"also set niceness to 10"`
+	UID        int    `short:"u" long:"uid" description:"act on already running processes owned by these users" value-name:"UID"`
+	Help       bool   `short:"h" long:"help" description:"display this help"`
+	Version    bool   `short:"V" long:"version" description:"display version"`
+	Adjustment int    `short:"a" long:"adjustment" description:"niceness priority adjustment"`
+	SetNice    int    `short:"s" long:"setnice" description:"set the process niceness"`
+	Args       struct {
 		Command []string
 	}
 }
@@ -65,11 +69,13 @@ func main() {
 	}
 
 	var (
-		hasClass     = parser.FindOptionByLongName("class").IsSet()
-		hasClassData = parser.FindOptionByLongName("classdata").IsSet()
-		hasPID       = parser.FindOptionByLongName("pid").IsSet()
-		hasPGID      = parser.FindOptionByLongName("pgid").IsSet()
-		hasUID       = parser.FindOptionByLongName("uid").IsSet()
+		hasClass      = parser.FindOptionByLongName("class").IsSet()
+		hasClassData  = parser.FindOptionByLongName("classdata").IsSet()
+		hasPID        = parser.FindOptionByLongName("pid").IsSet()
+		hasPGID       = parser.FindOptionByLongName("pgid").IsSet()
+		hasUID        = parser.FindOptionByLongName("uid").IsSet()
+		hasAdjustment = parser.FindOptionByLongName("adjustment").IsSet()
+		hasSetNice    = parser.FindOptionByLongName("setnice").IsSet()
 
 		data            = 4
 		set, which, who int
@@ -127,7 +133,19 @@ func main() {
 		who = gionice.IOPRIO_WHO_USER
 	}
 
-	if opts.Nice {
+	// The functionality of "nice"
+	if hasSetNice {
+		gionice.SetNicePri(which, who, opts.SetNice)
+	} else if hasAdjustment {
+		currentPri, err := gionice.NicePri(which, who)
+		if err != nil {
+			// warning, can not get niceness priority
+			fmt.Fprintf(os.Stderr, "can not get niceness: %v\n", err)
+			os.Exit(1)
+		}
+		currentPri += opts.Adjustment
+		gionice.SetNicePri(which, who, currentPri)
+	} else if opts.Nice {
 		gionice.SetNicePri(which, who, 10)
 	}
 
