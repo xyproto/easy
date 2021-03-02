@@ -1,35 +1,37 @@
 # Chill
 
-Chill is the `ionice` utility (from util-linux), ported to Go. It's a drop-in replacement.
+Chill implements the functionality of both `nice` and `ionice`.
 
-It can be used for not letting applications use too much of the disk or network capacity.
+It's also a drop-in replacement for `ionice` (from util-linux).
 
-This many be useful for running ie. Zoom or Chromium on desktop Linux.
-
-It can also be used to give applications increased I/O priority.
-
-Also, being able to launch programs like `nice chill chromium` is just more fun.
+* Chill started out as a port of `ionice` to Go, but more functionality has been added since then.
+* Chill many be useful for running ie. Zoom or Chromium on desktop Linux, with a lower I/O priority.
+* Chill can also be used to give applications increased I/O priority or niceness.
+* Starting programs with `chill` is just more fun.
 
 ## Differences from `ionice`
 
-* `-a` can be used to also set the process niceness to 10 (same as `nice COMMAND`).
+These flags are for adjusting the process niceness (from `nice` not `ionice`):
+
+* `-N` or `--nice` can be used to set the process niceness to 10 (same as `nice COMMAND`).
+* `-s` or `--setnice` can be used to set the process niceness.
+* `-a` or `--adjustment` can be used to adjust the process niceness by the given offset.
 
 ## Related projects
 
+* `ionice` from util-linux.
+* `nice` from coreutils.
 * [ion](https://github.com/xyproto/ion) is a fork of `ionice`, in 326 lines of C.
 * [gionice](https://github.com/xyproto/gionice) is a Go module where the core functionality of the `ionice` utility has been ported to Go.
 
-`chill` uses the [`gionice`](https://github.com/xyproto/gionice) Go module.
-
 ## Why
 
-This port exists mainly because I wanted to have a Go module for changing the I/O priority of servers written in Go. It was relatively easy to add a port of the `ionice` utility as well, once that was done.
-
-The Go executable is slightly larger than one produced in C, but might provide additional memory safety.
+This port exists mainly because I wanted to have a [Go module](https://github.com/xyproto/gionice) for changing the I/O priority of servers written in Go. It was relatively easy to add a port of the `ionice` utility as well, once that was done.
 
 ## Requirements
 
-Just Go and Linux.
+* A recent Go compiler.
+* Linux.
 
 ## Build
 
@@ -47,5 +49,5 @@ Just Go and Linux.
 
 ## General info
 
-* Version: 1.1.0
+* Version: 1.2.0
 * Licence: GPL2
