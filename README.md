@@ -12,7 +12,7 @@ It's also a drop-in replacement for `ionice` (from util-linux).
 
 These flags are for adjusting the process niceness (from `nice` not `ionice`):
 
-* `-N` or `--nice` can be used to set the process niceness to 10 (same as `nice COMMAND`).
+* `-N` or `--nice` can be used to **also** set the process niceness to 10 (same as `nice COMMAND`).
 * `-s` or `--setnice` can be used to set the process niceness.
 * `-a` or `--adjustment` can be used to adjust the process niceness by the given offset.
 
