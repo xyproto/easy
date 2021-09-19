@@ -1,12 +1,12 @@
-# Chill
+# Easy
 
-Chill implements the functionality of both `nice` and `ionice`.
+Easy implements the functionality of both `nice` and `ionice`.
 
 It's also a drop-in replacement for `ionice` (from util-linux).
 
-* Chill started out as a port of `ionice` to Go, but more functionality has been added since then.
-* Chill can also be used to give applications increased I/O priority or niceness.
-* Chill many be useful for running ie. Zoom or Chromium on desktop Linux, with a lower I/O priority.
+* Easy started out as a port of `ionice` to Go, but more functionality has been added since then.
+* Easy can also be used to give applications increased I/O priority or niceness.
+* Easy many be useful for running ie. Zoom or Chromium on desktop Linux, with a lower I/O priority.
 
 ## Differences from `ionice`
 
@@ -38,13 +38,13 @@ This port exists mainly because I wanted to have a [Go module](https://github.co
 
 ## Install
 
-    install -Dm755 chill /usr/bin/chill
-    gzip chill.1
-    install -Dm644 chill.1.gz /usr/share/man/man1/chill.1.gz
+    install -Dm755 easy /usr/bin/easy
+    gzip easy.1
+    install -Dm644 easy.1.gz /usr/share/man/man1/easy.1.gz
 
 ## Build and install with the go command
 
-    go get -u github.com/xyproto/chill
+    go get -u github.com/xyproto/easy
 
 ## General info
 

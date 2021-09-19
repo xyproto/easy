@@ -10,17 +10,17 @@ popd
 ./bgio.sh &
 PID="$!"
 echo "PID: $PID"
-../chill -p $PID
+../easy -p $PID
 
 echo 'Sleeping for 5 seconds before reprioritizing background I/O'
 sleep 5
-sudo ../chill -c best-effort -n 3 -p $PID
-../chill -p $PID
+sudo ../easy -c best-effort -n 3 -p $PID
+../easy -p $PID
 
 echo 'Sleeping for 5 seconds before reprioritizing background I/O'
 sleep 5
-sudo ../chill -c 3 -p $PID
-../chill -p $PID
+sudo ../easy -c 3 -p $PID
+../easy -p $PID
 
 echo 'Running for 5 seconds before killing background I/O'
 sleep 5

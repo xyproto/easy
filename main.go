@@ -1,4 +1,4 @@
-// chill is a port of ionice to Go
+// easy is a port of ionice to Go
 
 package main
 
@@ -13,13 +13,13 @@ import (
 	"github.com/xyproto/gionice"
 )
 
-const versionString = "chill 1.2.0"
+const versionString = "easy 1.2.0"
 
 const usageString = `Usage:
- chill [options] -p <pid>...
- chill [options] -P <pgid>...
- chill [options] -u <uid>...
- chill [options] <command>
+ easy [options] -p <pid>...
+ easy [options] -P <pgid>...
+ easy [options] -u <uid>...
+ easy [options] <command>
 
 Set or get the I/O-scheduling class and priority of a process.
 
@@ -39,9 +39,9 @@ Options:
  -h, --help             display this help
  -V, --version          display version
 
-For more details see chill(1).`
+For more details see easy(1).`
 
-// Options is a struct containing information about all flags used by chill
+// Options is a struct containing information about all flags used by easy
 type Options struct {
 	Class      string `short:"c" long:"class" description:"name or number of scheduling class, 0: none, 1: realtime, 2: best-effort, 3: idle" choice:"0" choice:"1" choice:"2" choice:"3" choice:"none" choice:"realtime" choice:"best-effort" choice:"idle"`
 	ClassData  int    `short:"n" long:"classdata" description:"priority (0..7) in the specified scheduling class, only for the realtime and best-effort classes" choice:"0" choice:"1" choice:"2" choice:"3" choice:"4" choice:"5" choice:"6" choice:"7" choice:"8" choice:"9"`
@@ -172,10 +172,10 @@ func main() {
 	}
 
 	if set == 0 && which == 0 && len(args) == 0 {
-		// chill without options, print the current ioprio
+		// easy without options, print the current ioprio
 		gionice.Print(0, gionice.IOPRIO_WHO_PROCESS)
 	} else if set == 0 && who != 0 {
-		// chill -p|-P|-u ID [ID ...]
+		// easy -p|-P|-u ID [ID ...]
 		gionice.Print(which, who)
 		for _, id := range args {
 			if n, err := strconv.Atoi(id); err == nil { // success, arg is a number
@@ -184,7 +184,7 @@ func main() {
 			}
 		}
 	} else if set != 0 && who != 0 {
-		// chill -c CLASS -p|-P|-u ID [ID ...]
+		// easy -c CLASS -p|-P|-u ID [ID ...]
 		if err := gionice.SetIDPri(which, ioclass, data, who); err != nil && !tolerant {
 			fmt.Fprintln(os.Stderr, "ioprio_set failed", err)
 			os.Exit(1)
@@ -200,7 +200,7 @@ func main() {
 			}
 		}
 	} else if len(args) > 0 {
-		// chill [-c CLASS] COMMAND
+		// easy [-c CLASS] COMMAND
 		if err := gionice.SetIDPri(0, ioclass, data, gionice.IOPRIO_WHO_PROCESS); err != nil && !tolerant {
 			fmt.Fprintln(os.Stderr, "ioprio_set failed", err)
 			os.Exit(1)
@@ -218,7 +218,7 @@ func main() {
 		}
 		os.Exit(1)
 	} else {
-		fmt.Fprintln(os.Stderr, "bad usage\nTry 'chill --help' for more information.")
+		fmt.Fprintln(os.Stderr, "bad usage\nTry 'easy --help' for more information.")
 		os.Exit(1)
 	}
 }

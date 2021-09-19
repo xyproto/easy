@@ -1,4 +1,4 @@
-module github.com/xyproto/chill
+module github.com/xyproto/easy
 
 go 1.15
 

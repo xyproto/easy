@@ -1,10 +1,10 @@
 .\"             -*-Nroff-*-
 .\"
-.TH "chill" 1 "2 Mar 2021" "chill" "User Commands"
+.TH "easy" 1 "2 Mar 2021" "easy" "User Commands"
 .SH NAME
-chill \- set or get process I/O scheduling class and priority
+easy \- set or get process I/O scheduling class and priority
 .SH SYNOPSIS
-.B chill
+.B easy
 .RB [ \-c
 .IR class ]
 .RB [ \-n
@@ -13,7 +13,7 @@ chill \- set or get process I/O scheduling class and priority
 .B \-p
 .IR PID ...
 .br
-.B chill
+.B easy
 .RB [ \-c
 .IR class ]
 .RB [ \-n
@@ -22,7 +22,7 @@ chill \- set or get process I/O scheduling class and priority
 .B \-P
 .IR PGID ...
 .br
-.B chill
+.B easy
 .RB [ \-c
 .IR class ]
 .RB [ \-n
@@ -31,7 +31,7 @@ chill \- set or get process I/O scheduling class and priority
 .B \-u
 .IR UID ...
 .br
-.B chill
+.B easy
 .RB [ \-c
 .IR class ]
 .RB [ \-n
@@ -40,11 +40,11 @@ chill \- set or get process I/O scheduling class and priority
 .IR "command " [ argument ...]
 .SH DESCRIPTION
 This program sets or gets the I/O scheduling class and priority for a program.
-If no arguments or just \fB\-p\fR is given, \fBchill\fR will query the current
+If no arguments or just \fB\-p\fR is given, \fBeasy\fR will query the current
 I/O scheduling class and priority for that process.
 
 When \fIcommand\fR is given,
-.B chill
+.B easy
 will run this command with the given arguments.
 If no \fIclass\fR is specified, then
 .I command
@@ -129,15 +129,15 @@ Linux supports I/O scheduling priorities and classes since 2.6.13 with the CFQ
 I/O scheduler.
 .SH EXAMPLES
 .TP 7
-# \fBchill\fP \-c 3 \-p 89
+# \fBeasy\fP \-c 3 \-p 89
 .TP 7
 Sets process with PID 89 as an idle I/O process.
 .TP 7
-# \fBchill\fP \-c 2 \-n 0 bash
+# \fBeasy\fP \-c 2 \-n 0 bash
 .TP 7
 Runs 'bash' as a best-effort program with highest priority.
 .TP 7
-# \fBchill\fP \-p 89 91
+# \fBeasy\fP \-p 89 91
 .TP 7
 Prints the class and priority of the processes with PID 89 and 91.
 .SH VERSION
@@ -152,6 +152,6 @@ Alexander F. Rødseth <xyproto@archlinux.org>
 .BR ionice (1)
 .BR ion (1)
 .SH BUGS
-No known bugs so far. Issues can be reported to https://github.com/xyproto/chill/issues.
+No known bugs so far. Issues can be reported to https://github.com/xyproto/easy/issues.
 .SH AVAILABILITY
-The chill command is available from: https://github.com/xyproto/chill.
+The easy command is available from: https://github.com/xyproto/easy.
