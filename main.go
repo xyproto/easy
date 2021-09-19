@@ -13,7 +13,7 @@ import (
 	"github.com/xyproto/gionice"
 )
 
-const versionString = "easy 1.2.0"
+const versionString = "easy 1.3.0"
 
 const usageString = `Usage:
  easy [options] -p <pid>...
