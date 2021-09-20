@@ -1,6 +1,6 @@
 # Easy
 
-Easy implements the functionality of both `nice` and `ionice`.
+Easy implements the functionality of both `nice` and `ionice`, without using 
 
 It's also a drop-in replacement for `ionice` (from util-linux).
 
