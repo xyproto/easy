@@ -48,5 +48,5 @@ This port exists mainly because I wanted to have a [Go module](https://github.co
 
 ## General info
 
-* Version: 1.2.0
+* Version: 1.3.0
 * Licence: GPL2
