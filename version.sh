@@ -4,7 +4,7 @@
 #
 
 # The current version goes here, as the default value
-CURRENT_VERSION='1.3.0'
+CURRENT_VERSION='1.4.0'
 VERSION=${1:-$CURRENT_VERSION}
 
 if [ "$1" == '-s' ]; then
