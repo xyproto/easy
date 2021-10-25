@@ -24,14 +24,14 @@ const usageString = `Usage:
 Set or get the I/O-scheduling class and priority of a process.
 
 Options:
- -c, --class <class>    name or number of scheduling class,
+ -c, --class <class>    name or number of scheduling class (I/O),
                         0: none, 1: realtime, 2: best-effort, 3: idle
  -n, --classdata <num>  priority (0..7) in the specified scheduling class,
-                        only for the realtime and best-effort classes
+                        only for the realtime and best-effort classes (I/O)
  -p, --pid <pid>...     act on these already running processes
  -P, --pgid <pgrp>...   act on already running processes in these groups
  -t, --ignore           ignore failures
- -N, --nice             set the niceness to 10
+ -N, --nice             set the niceness to 10 (CPU)
  -a, --adjustment <x>   adjust the nice priority with the given number
  -u, --uid <uid>...     act on already running processes owned by these users
  -s, --setnice <x>      set the process niceness
