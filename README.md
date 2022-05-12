@@ -8,6 +8,12 @@ It's also a drop-in replacement for `ionice` (from util-linux).
 * Easy can also be used to give applications increased I/O priority or niceness.
 * Easy many be useful for running ie. Zoom or Chromium on desktop Linux, with a lower I/O priority.
 
+## Example use
+
+Run `ls` in a very relaxed way (nice both in terms of CPU usage and in terms of I/O usage):
+
+    easy -c3 -N ls
+
 ## Differences from `ionice`
 
 These flags are for adjusting the process niceness (from `nice` not `ionice`):
