@@ -26,7 +26,7 @@ These flags are for adjusting the process niceness (from `nice` not `ionice`):
 
 * `ionice` from util-linux.
 * `nice` from coreutils.
-* [ion](https://github.com/xyproto/ion) is a fork of `ionice`, in 326 lines of C.
+* [tinyionice](https://github.com/xyproto/tinyionice) is a fork of `ionice`, in only 300 lines of C.
 * [gionice](https://github.com/xyproto/gionice) is a Go module where the core functionality of the `ionice` utility has been ported to Go.
 
 ## Why
