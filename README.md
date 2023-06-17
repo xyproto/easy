@@ -6,7 +6,7 @@ It's also a drop-in replacement for `ionice` (from util-linux).
 
 * Easy started out as a port of `ionice` to Go, but more functionality has been added since then.
 * Easy can also be used to give applications increased I/O priority or niceness.
-* Easy many be useful for running ie. Zoom or Chromium on desktop Linux, with a lower I/O priority.
+* Easy may be useful for running ie. Zoom or Chromium on desktop Linux, with a lower I/O priority.
 
 ## Example use
 
