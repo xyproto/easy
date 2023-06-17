@@ -48,9 +48,9 @@ This port exists mainly because I wanted to have a [Go module](https://github.co
     gzip easy.1
     install -Dm644 easy.1.gz /usr/share/man/man1/easy.1.gz
 
-## Build and install with the go command
+## Dev install with Go 1.17 or later
 
-    go get -u github.com/xyproto/easy
+    go install github.com/xyproto/easy@latest
 
 ## General info
 
