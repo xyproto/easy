@@ -10,9 +10,13 @@ It's also a drop-in replacement for `ionice` (from util-linux).
 
 ## Example use
 
-Run `ls` in a very relaxed way (nice both in terms of CPU usage and in terms of I/O usage):
+Run `chromium` in a very relaxed way (nice both in terms of CPU usage and in terms of I/O usage):
 
-    easy -c3 -N ls
+    easy -c3 -N chromium
+
+The same as above, but with the easier to remember `--both` or `-b` flag:
+
+    easy -b chromium
 
 ## Differences from `ionice`
 

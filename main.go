@@ -35,6 +35,7 @@ Options:
  -a, --adjustment <x>   adjust the nice priority with the given number
  -u, --uid <uid>...     act on already running processes owned by these users
  -s, --setnice <x>      set the process niceness
+ -b, --both             set the CPU niceness to 10 and the I/O class to "idle"
 
  -h, --help             display this help
  -V, --version          display version
@@ -54,6 +55,7 @@ type Options struct {
 	Version    bool   `short:"V" long:"version" description:"display version"`
 	Adjustment int    `short:"a" long:"adjustment" description:"niceness priority adjustment"`
 	SetNice    int    `short:"s" long:"setnice" description:"set the process niceness"`
+	Both       bool   `short:"b" long:"both" description:"set the CPU niceness to 10 and the I/O class to idle"`
 	Args       struct {
 		Command []string
 	}
@@ -76,6 +78,7 @@ func main() {
 		hasUID        = parser.FindOptionByLongName("uid").IsSet()
 		hasAdjustment = parser.FindOptionByLongName("adjustment").IsSet()
 		hasSetNice    = parser.FindOptionByLongName("setnice").IsSet()
+		hasSetBoth    = parser.FindOptionByLongName("both").IsSet()
 
 		data            = 4
 		set, which, who int
@@ -136,6 +139,9 @@ func main() {
 	// The functionality of "nice"
 	if hasSetNice {
 		gionice.SetNicePri(which, who, opts.SetNice)
+	} else if hasSetBoth {
+		gionice.SetNicePri(which, who, 10)
+		ioclass = gionice.IOPRIO_CLASS_IDLE
 	} else if hasAdjustment {
 		currentPri, err := gionice.NicePri(which, who)
 		if err != nil {
